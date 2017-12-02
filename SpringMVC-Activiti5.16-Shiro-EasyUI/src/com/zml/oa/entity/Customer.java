@@ -1,19 +1,29 @@
 package com.zml.oa.entity;
 
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 /**
- * TCustomer entity. @author MyEclipse Persistence Tools
+ *  客户信息实体
+ * @author ccs
+ *
  */
 @Entity
-@Table(name = "t_customer", catalog = "mysql")
-public class Customer implements java.io.Serializable {
+@Table(name = "T_CUSTOMER")
+// 在Hibernate中可以利用@DynamicInsert和@DynamicUpdate生成动态SQL语句，
+//即在插入和修改数据的时候,语句中只包括要插入或者修改的字段。
+@DynamicUpdate(true)
+@DynamicInsert(true)
+public class Customer extends BaseVO implements java.io.Serializable {
 
 	// Fields
 
@@ -46,7 +56,7 @@ public class Customer implements java.io.Serializable {
 	private String mobile3;
 	private String email3;
 	private String qq3;
-	private String comment;
+	private String remarks;
 	private String custState;
 
 	// Constructors
@@ -109,13 +119,12 @@ public class Customer implements java.io.Serializable {
 		this.mobile3 = mobile3;
 		this.email3 = email3;
 		this.qq3 = qq3;
-		this.comment = comment;
 		this.custState = custState;
 	}
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "cust_id", unique = true, nullable = false)
 	public Integer getCustId() {
 		return this.custId;
@@ -341,15 +350,6 @@ public class Customer implements java.io.Serializable {
 		this.qq3 = qq3;
 	}
 
-	@Column(name = "comment", length = 65535)
-	public String getComment() {
-		return this.comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
 	@Column(name = "cust_state", length = 10)
 	public String getCustState() {
 		return this.custState;
@@ -357,6 +357,14 @@ public class Customer implements java.io.Serializable {
 
 	public void setCustState(String custState) {
 		this.custState = custState;
+	}
+	@Column(name = "remarks", length = 65535)
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 }

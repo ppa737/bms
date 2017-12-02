@@ -33,6 +33,7 @@ public class Order implements java.io.Serializable {
 	private String comment;
 	private String orderState;
 	private String procInstId;
+	private String certificationType;
 
 	// Constructors
 
@@ -51,7 +52,7 @@ public class Order implements java.io.Serializable {
 	public Order(String orderCode, String orderName, String orderType,
 			String branch, String owner, Double amount, Timestamp startDate,
 			Timestamp endDate, String comment, String orderState,
-			String procInstId) {
+			String procInstId, String certificationType) {
 		this.orderCode = orderCode;
 		this.orderName = orderName;
 		this.orderType = orderType;
@@ -63,6 +64,7 @@ public class Order implements java.io.Serializable {
 		this.comment = comment;
 		this.orderState = orderState;
 		this.procInstId = procInstId;
+		this.certificationType = certificationType;
 	}
 
 	// Property accessors
@@ -174,6 +176,14 @@ public class Order implements java.io.Serializable {
 
 	public void setProcInstId(String procInstId) {
 		this.procInstId = procInstId;
+	}
+	@Column(name = "certification_type")
+	public String getCertificationType() {
+		return certificationType;
+	}
+
+	public void setCertificationType(String certificationType) {
+		this.certificationType = certificationType;
 	}
 
 }
