@@ -5,6 +5,7 @@ public class Message {
 	private String message;
 	private Boolean status = true;
 	
+	private Object data;
 	public Message(){
 		
 	}
@@ -36,6 +37,14 @@ public class Message {
 
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
 	}
 
 }

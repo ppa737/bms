@@ -37,7 +37,7 @@
 <div id="layout_north_kzmbMenu" style="width: 100px; display: none;">
 	<div onclick="showUserInfo();">个人信息</div>
 	<div class="menu-sep"></div>
-	<div>
+<!-- 	<div>
 		<span>更换主题</span>
 		<div style="width: 120px;">
 			<div onclick="changeTheme('default');">default</div>
@@ -47,7 +47,7 @@
 			<div onclick="changeTheme('pepper-grinder');">pepper-grinder</div>
 			<div onclick="changeTheme('sunny');">sunny</div>
 		</div>
-	</div>
+	</div> -->
 </div>
 <div id="layout_north_zxMenu" style="width: 100px; display: none;">
 	<div onclick="loginAndRegDialog.dialog('open');">锁定窗口</div>

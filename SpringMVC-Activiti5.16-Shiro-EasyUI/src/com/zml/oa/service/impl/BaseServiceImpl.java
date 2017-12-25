@@ -173,6 +173,23 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
         	return Collections.emptyList();
         }
 	}
+	
+	@Override
+	public List<T> findByPage(String hql,String countHql) throws Exception{
+		
+		Long totalSum = this.count(countHql);
+		int[] pageParams = PaginationThreadUtils.setPage(totalSum.intValue());
+		
+
+	       logger.info("findByPage: HQL: "+hql);
+	       List<T> list = new ArrayList<T>();
+	       list = this.baseDao.findByPage(hql, pageParams[0], pageParams[1]); 
+	       if( list.size()>0 ){
+        	   return list;
+           }else{
+        	   return Collections.emptyList();
+           }
+	}
 
 	@Override
 	public List<T> getListPage(String tableSimpleName, String[] columns,
@@ -216,4 +233,7 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
         }
 	}
 	
+	public Long count(String hql ) {
+		return this.baseDao.count(hql);
+	}
 }

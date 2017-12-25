@@ -1,6 +1,8 @@
 package com.zml.oa.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zml.oa.entity.Customer;
 import com.zml.oa.entity.User;
@@ -40,17 +43,7 @@ public class CustomerAction {
 	@RequestMapping("/toList_page")
 	public String toList(Model model) throws Exception{
 		User user = UserUtil.getUserFromSession();
-		List<Customer> list = this.custmoerService.toList(user.getId());
-//		for(Vacation v : list){
-//			if(BaseVO.APPROVAL_SUCCESS.equals(v.getStatus())){
-//				Vacation customer = (Vacation)this.historyService.createHistoricVariableInstanceQuery()
-//					.processInstanceId(v.getProcessInstanceId()).variableName("entity");
-//				
-//			}
-//		}
-		Pagination pagination = PaginationThreadUtils.get();
-		model.addAttribute("page", pagination.getPageStr());
-		model.addAttribute("customerList", list);
+
 		return "customer/list_customer";
 	}
 	
@@ -65,5 +58,26 @@ public class CustomerAction {
 	@RequestMapping(value = "/toAdd")
 	public String toAdd(){
 		return "customer/add_customer";
-	}	
+	}
+	
+	@RequiresPermissions("user:customer:*")
+	@RequestMapping("/bindTable")
+	@ResponseBody
+	public Map<String, Object> bindTable(Model model) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = UserUtil.getUserFromSession();
+		List<Customer> list = this.custmoerService.toList(user.getId());
+//		for(Vacation v : list){
+//			if(BaseVO.APPROVAL_SUCCESS.equals(v.getStatus())){
+//				Vacation customer = (Vacation)this.historyService.createHistoricVariableInstanceQuery()
+//					.processInstanceId(v.getProcessInstanceId()).variableName("entity");
+//				
+//			}
+//		}
+		Pagination pagination = PaginationThreadUtils.get();
+		model.addAttribute("page", pagination.getPageStr());
+		model.addAttribute("customerList", list);
+		map.put("rows", list);
+		return map;
+	}
 }

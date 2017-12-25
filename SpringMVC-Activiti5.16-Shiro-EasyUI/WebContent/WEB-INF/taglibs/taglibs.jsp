@@ -32,13 +32,14 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/themes/icon.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/easyui/common.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/tipsy.css">
-
+<link rel="stylesheet" type="text/css" href="${ctx }/js/sweetalert-1.1.3/sweetalert.css">
 <script type="text/javascript" src="${ctx}/js/moment.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/easyui/jquery.easyui.min.js"></script>
 <%-- <script type="text/javascript" src="${ctx}/js/easyui/jquery.easyui.mobile.js"></script> --%>
 <script type="text/javascript" src="${ctx}/js/easyui/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${ctx}/js/easyui/jqueryUtil.js"></script>
 <script type="text/javascript" src="${ctx }/js/easyui/login/jquery.tipsy.js"></script>
+<script type="text/javascript" src="${ctx }/js/sweetalert-1.1.3/sweetalert.min.js"></script>
 
 <script type="text/javascript" charset="utf-8">
     var ctx = "${ctx}";

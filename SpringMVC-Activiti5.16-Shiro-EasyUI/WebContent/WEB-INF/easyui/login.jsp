@@ -120,16 +120,7 @@
 				- 技术支持:<a href="javascript:void(0);" title="zhaoml529@163.com">zml</a> </span>
 		</div>
 	</div>
-	<script>
-	    $(function() {
-	        $("#jcaptcha").click(function() {
-	            $("#jcaptcha").attr("src", '${ctx}/jcaptcha.jpg?'+new Date().getTime());
-	        });
-	        var msg = $("#alertMessage").html();
-	        if(msg != ''){
-		        showError(msg);
-	        }
-	    });
-	</script>
+<script type="text/javascript" src="js/customer.js"></script>
 </body>
+
 </html>
