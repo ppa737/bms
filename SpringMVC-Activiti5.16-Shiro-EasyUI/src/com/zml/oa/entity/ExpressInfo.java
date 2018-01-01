@@ -1,7 +1,6 @@
 package com.zml.oa.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -78,6 +77,12 @@ public class ExpressInfo extends BaseVO implements Serializable{
 	
 	@Column(name = "CREATE_DATE")
 	private Date createDate;
+	
+	@Column(name = "modify_user", length = 100)
+	private String modifyUser;
+	
+	@Column(name = "modify_date")
+	private Date modifyDate;
 
 	public Integer getExpressId() {
 		return expressId;
@@ -199,21 +204,34 @@ public class ExpressInfo extends BaseVO implements Serializable{
 		this.expressComment = expressComment;
 	}
 
-	public String getCreateUser() {
-		return createUser;
-	}
-
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
 	}
+	
 
 	public Date getCreateDate() {
 		return createDate;
 	}
-
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
 	
+	public String getModifyUser() {
+		return modifyUser;
+	}
+
+	public void setModifyUser(String modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+
 	
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+
 }

@@ -1,10 +1,14 @@
 package com.zml.oa.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -34,6 +38,10 @@ public class Order implements java.io.Serializable {
 	private String orderState;
 	private String procInstId;
 	private String certificationType;
+	private String createUser;
+	private Date createDate;
+	private String modifyUser;
+	private Date modifyDate;
 
 	// Constructors
 
@@ -184,6 +192,42 @@ public class Order implements java.io.Serializable {
 
 	public void setCertificationType(String certificationType) {
 		this.certificationType = certificationType;
+	}
+
+	@Column(name = "create_user", length = 100)
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+	
+	@Column(name = "create_date")
+	public Date getCreateDate() {
+		return createDate;
+	}
+	
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	@Column(name = "modify_user", length = 100)
+	public String getModifyUser() {
+		return modifyUser;
+	}
+
+	public void setModifyUser(String modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+
+	@Column(name = "modify_date")
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
 	}
 
 }

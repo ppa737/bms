@@ -48,6 +48,10 @@ $(function() {
 });
 
 var Customer ={
+	url:{
+		bindTable:'../expressAction/bindTable',
+		doAdd: "../expressAction/doAdd",
+	},
 	init: function(){
 		this.bindEvent();
 		this.bindTable();
@@ -55,16 +59,15 @@ var Customer ={
 	bindEvent : function(){
 		var that =this;
 		$("#btnAddCust").bind('click', function () {
-			
             that.add();
         });
 	},
 	
 	bindTable :function(){
+		var that =this;
 		$('#table_customer').bootstrapTable({
-            //data: demoData,
         	method : 'get',
-			url : '../customerAction/bindTable',
+			url : that.url.bindTable,
 			dataType : "json",
 			toolbar : '#toolbar', // 工具按钮用哪个容器
 			singleSelect : false,
@@ -84,8 +87,11 @@ var Customer ={
 			 * return '编码：'+row.ragionid; },
 			 */
 			queryParams : function(params) {
-				
-		       
+				var temp = {
+						'pageSize' : params.limit,
+						'pageNum' : params.offset / params.limit + 1,
+					};
+				return temp;
 			},
 			silent : true, // 刷新事件必须设置
 			formatLoadingMessage : function() {
@@ -103,30 +109,17 @@ var Customer ={
                 },
                 {
                     field: 'custCode',
-                    title: '模板代码'
+                    title: '客户编码'
                 },
                 {
                     field: 'custName',
-                    title: '模板名称'
-                },  {
-                    field: 'branch',
-                    title: '所属机构',
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                    	var _html=""
-                    	if(row.tempOrg=="2"){
-                    		return "福建";
-                    	}else{
-                    		return value;
-                    	}
-                    }
+                    title: '客户名称'
                 },{
                     field: 'address',
-                    title: '模板类型',
-                    align: 'center',
+                    title: '公司地址',
+                    align: 'left',
 
-                },
-                {
+                },{
                     field: 'createDate',
                     title: '创建时间',
                     formatter: function (value, row, index) {

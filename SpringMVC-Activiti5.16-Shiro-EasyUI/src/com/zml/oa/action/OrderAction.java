@@ -16,42 +16,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zml.oa.entity.ExpressInfo;
 import com.zml.oa.entity.Message;
+import com.zml.oa.entity.Order;
 import com.zml.oa.entity.User;
 import com.zml.oa.pagination.Pagination;
 import com.zml.oa.pagination.PaginationThreadUtils;
-import com.zml.oa.service.IExpressInfoService;
+import com.zml.oa.service.IOrderService;
 import com.zml.oa.util.UserUtil;
 
 /**
- * 快递信息
+ * 订单信息
  * 
  * @author ccs
  * 
  */
 
 @Controller
-@RequestMapping("/expressAction")
-public class ExpressAction {
-	private static Logger logger = Logger.getLogger(ExpressAction.class);
+@RequestMapping("/orderAction")
+public class OrderAction {
+	private static Logger logger = Logger.getLogger(OrderAction.class);
 
 	@Autowired
-	IExpressInfoService expressService;
+	IOrderService orderService;
 
 	/**
-	 * 查询快递信息集合
+	 * 查询订单信息集合
 	 * 
 	 * @param model
 	 * @return
 	 * @throws Exception
 	 */
-	@RequiresPermissions("user:express:*")
+	@RequiresPermissions("user:order:*")
 	@RequestMapping("/toList_page")
 	public String toList(Model model) throws Exception {
 //		User user = UserUtil.getUserFromSession();
 
-		return "express/list_express";
+		return "order/list_order";
 	}
 
 	/**
@@ -60,13 +60,13 @@ public class ExpressAction {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("user:express:*")
+	@RequiresPermissions("user:order:*")
 	@RequestMapping(value = "/toAdd")
 	public String toAdd() {
-		return "express/add_customer";
+		return "order/add_customer";
 	}
 
-	@RequiresPermissions("user:express:*")
+	@RequiresPermissions("user:order:*")
 	@RequestMapping("/bindTable")
 	@ResponseBody
 	public Map<String, Object> bindTable(
@@ -78,40 +78,35 @@ public class ExpressAction {
 		pagination.setCurrentPage(pageNum);
 		pagination.setPageNum(pageSize);
 		PaginationThreadUtils.set(pagination);
-		String hql = "select t from ExpressInfo t order by t.expressId desc";
-		String countHql = "select count(*) from ExpressInfo ";
-		List<ExpressInfo> list = this.expressService.queryForPage(hql,countHql);
-		Long total = expressService.queryCount(countHql);
+		String hql = "select t from Order t order by t.orderId desc";
+		String countHql = "select count(*) from Order ";
+		List<Order> list = this.orderService.queryForPage(hql,countHql);
+		Long total = orderService.queryCount(countHql);
 		map.put("rows", list);
 		map.put("total", total);
 		return map;
 	}
 
 	/**
-	 * 添加快递
+	 * 添加订单
 	 * 
-	 * @param salary
-	 * @param results
-	 * @param redirectAttributes
-	 * @param session
-	 * @param model
 	 * @return
 	 * @throws Exception
 	 */
-	@RequiresPermissions("user:express:doAdd")
+	@RequiresPermissions("user:order:doAdd")
 	@RequestMapping(value = "/doAdd", method = RequestMethod.POST)
 	@ResponseBody
-	public Message doAdd(@RequestParam("express") String expressStr)
+	public Message doAdd(@RequestParam("order") String orderStr)
 			throws Exception {
 		User currentUser = UserUtil.getUserFromSession();
-		ExpressInfo express = JSONObject.parseObject(expressStr,
-				ExpressInfo.class);
-		System.out.println("getExpressCode:" + express.getExpressCode());
+		Order order = JSONObject.parseObject(orderStr,
+				Order.class);
+		System.out.println("getOrderCode:" + order.getOrderCode());
 		Message message = new Message();
-		express.setCreateUser(currentUser.getName());
-		express.setCreateDate(new Date());
+		order.setCreateUser(currentUser.getName());
+		order.setCreateDate(new Date());
 		try {
-			expressService.doAdd(express);
+			orderService.doAdd(order);
 			message.setStatus(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,30 +118,26 @@ public class ExpressAction {
 	}
 	
 	/**
-	 * 更改快递
+	 * 更改订单
 	 * 
-	 * @param salary
-	 * @param results
-	 * @param redirectAttributes
-	 * @param session
-	 * @param model
+	 * @param orderStr
 	 * @return
 	 * @throws Exception
 	 */
-	@RequiresPermissions("user:express:doAdd")
+	@RequiresPermissions("user:order:doAdd")
 	@RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
 	@ResponseBody
-	public Message doUpdate(@RequestParam("express") String expressStr)
+	public Message doUpdate(@RequestParam("order") String orderStr)
 			throws Exception {
 		User currentUser = UserUtil.getUserFromSession();
-		ExpressInfo express = JSONObject.parseObject(expressStr,
-				ExpressInfo.class);
-		System.out.println("getExpressCode:" + express.getExpressCode());
+		Order order = JSONObject.parseObject(orderStr,
+				Order.class);
+		System.out.println("getOrderCode:" + order.getOrderCode());
 		Message message = new Message();
-		express.setCreateUser(currentUser.getName());
-		express.setCreateDate(new Date());
+		order.setCreateUser(currentUser.getName());
+		order.setCreateDate(new Date());
 		try {
-			expressService.doUpdateExpressInfo(express);
+			orderService.doUpdate(order);
 			message.setStatus(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -158,7 +149,7 @@ public class ExpressAction {
 	}
 	
 	/**
-	 * 删除快递
+	 * 删除订单
 	 * 
 	 * @param salary
 	 * @param results
@@ -168,20 +159,20 @@ public class ExpressAction {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequiresPermissions("user:express:doAdd")
-	@RequestMapping(value = "/deleteExpressInfo", method = RequestMethod.POST)
+	@RequiresPermissions("user:order:doAdd")
+	@RequestMapping(value = "/deleteOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public Message deleteExpressInfo(@RequestParam("express") String expressStr)
+	public Message deleteOrder(@RequestParam("order") String orderStr)
 			throws Exception {
 		User currentUser = UserUtil.getUserFromSession();
-		ExpressInfo express = JSONObject.parseObject(expressStr,
-				ExpressInfo.class);
-		System.out.println("getExpressCode:" + express.getExpressCode());
+		Order order = JSONObject.parseObject(orderStr,
+				Order.class);
+		System.out.println("getOrderCode:" + order.getOrderCode());
 		Message message = new Message();
-		express.setCreateUser(currentUser.getName());
-		express.setCreateDate(new Date());
+		order.setCreateUser(currentUser.getName());
+		order.setCreateDate(new Date());
 		try {
-			expressService.deleteExpressInfo(express);
+			orderService.doDelete(order);
 			message.setStatus(true);
 		} catch (Exception e) {
 			e.printStackTrace();

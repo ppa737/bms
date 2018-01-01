@@ -1,6 +1,6 @@
 package com.zml.oa.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +39,6 @@ public class Customer extends BaseVO implements java.io.Serializable {
 	private String address;
 	private String contacts1;
 	private String position1;
-	private Timestamp createDate;
 	private String tel1;
 	private String mobile1;
 	private String email1;
@@ -58,7 +57,12 @@ public class Customer extends BaseVO implements java.io.Serializable {
 	private String qq3;
 	private String remarks;
 	private String custState;
+	private String createUser;
+	private Date createDate;
+	private String modifyUser;
+	private Date modifyDate;
 
+	
 	// Constructors
 
 	/** default constructor */
@@ -90,11 +94,12 @@ public class Customer extends BaseVO implements java.io.Serializable {
 	/** full constructor */
 	public Customer(String custCode, String custName, String branch,
 			String owner, String address, String contacts1, String position1,
-			Timestamp createDate, String tel1, String mobile1, String email1,
+			String tel1, String mobile1, String email1,
 			String qq1, String contacts2, String position2, String tel2,
 			String mobile2, String email2, String qq2, String contacts3,
 			String position3, String tel3, String mobile3, String email3,
-			String qq3, String comment, String custState) {
+			String qq3, String comment, String custState ,String createUser, 
+			Date createDate, String modifyUser, Date modifyDate) {
 		this.custCode = custCode;
 		this.custName = custName;
 		this.branch = branch;
@@ -102,7 +107,7 @@ public class Customer extends BaseVO implements java.io.Serializable {
 		this.address = address;
 		this.contacts1 = contacts1;
 		this.position1 = position1;
-		this.createDate = createDate;
+		
 		this.tel1 = tel1;
 		this.mobile1 = mobile1;
 		this.email1 = email1;
@@ -120,6 +125,10 @@ public class Customer extends BaseVO implements java.io.Serializable {
 		this.email3 = email3;
 		this.qq3 = qq3;
 		this.custState = custState;
+		this.createUser =createUser;
+		this.createDate = createDate;
+		this.modifyUser = modifyUser;
+		this.modifyDate = modifyDate;
 	}
 
 	// Property accessors
@@ -198,11 +207,11 @@ public class Customer extends BaseVO implements java.io.Serializable {
 	}
 
 	@Column(name = "create_date", length = 19)
-	public Timestamp getCreateDate() {
+	public Date getCreateDate() {
 		return this.createDate;
 	}
 
-	public void setCreateDate(Timestamp createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
@@ -367,4 +376,32 @@ public class Customer extends BaseVO implements java.io.Serializable {
 		this.remarks = remarks;
 	}
 
+	@Column(name = "create_user", length = 100)
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	@Column(name = "modify_user", length = 100)
+	public String getModifyUser() {
+		return modifyUser;
+	}
+
+	public void setModifyUser(String modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+
+	@Column(name = "modify_date")
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+
+	
 }

@@ -7,10 +7,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">    
-<link rel="stylesheet" type="text/css" href="${ctx}/css/easyui/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="${ctx}/js/bootstrap-table/bootstrap-table.min.css">
-<script src="${ctx }/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="${ctx }/js/bootstrap-table/bootstrap-table.min.js" type="text/javascript"></script>
 <title></title>
 
 </head>
@@ -27,8 +23,8 @@
 			<tr>
 				<td style="padding-left:2px">
 					<a id="btnAddCust" href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" >新增</a>
-					<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" onclick="delegateTask();">委派</a>
-					<%-- <shiro:hasPermission name="boss"> --%>
+<!-- 					<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" onclick="delegateTask();">委派</a>
+ -->					<%-- <shiro:hasPermission name="boss"> --%>
 						<!-- <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" onclick="jumpTask();">跳转</a> -->
 					<%-- </shiro:hasPermission> --%>
 				</td>
@@ -86,7 +82,7 @@
     
     
     
-<!-- 模态框（Modal）组织机构树 -->
+<!-- 模态框（Modal）客户信息 -->
 <div class="modal fade" id="custModal" tabindex="0" role="dialog"
 	aria-labelledby="treeModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -108,7 +104,6 @@
                                     <input id="custCode" name="custCode" class="form-control  valid" type="text"/>
                                 </div>
                             </div>
-						
 							<div class="form-group">
                                 <label class="col-sm-3 control-label">客户名称：</label>
                                 <div class="col-sm-9">
@@ -187,8 +182,6 @@
                                     <input id="qq1" name="qq1" class="form-control  valid" type="text"/>
                                 </div>
                             </div>
-                            
-                            
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">第二联系人：</label>
                                 <div class="col-sm-9">
@@ -225,10 +218,6 @@
                                     <input id="qq2" name="qq2" class="form-control  valid" type="text"/>
                                 </div>
                             </div>
-                            
-                            
-                            
-				
                        <div class="form-group">
                                 <label class="col-sm-3 control-label">第三联系人：</label>
                                 <div class="col-sm-9">
@@ -271,13 +260,12 @@
                                     <textarea id="comment" name="comment" class="form-control  valid" type="text"></textarea>
                                 </div>
                             </div> 
-                      
 				    </form>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary btn_b" id="btnSaveOrg">保存</button>
+				<button type="button" class="btn btn-primary btn_b" id="btnSaveCust">保存</button>
 				<button type="button" class="btn btn-default btn_b"
 					data-dismiss="modal" id="btnCancelOrg">取消</button>
 			</div>

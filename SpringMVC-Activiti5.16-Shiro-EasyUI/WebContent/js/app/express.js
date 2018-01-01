@@ -73,7 +73,7 @@ var Express ={
 	},
 	
 	bindTable :function(){
-		var that =this
+		var that =this;
 		$('#table_express').bootstrapTable({
         	method : 'get',
 			url : that.url.bindTable,
@@ -95,10 +95,7 @@ var Express ={
 			 * detailFormatter:function(index, row, element){
 			 * return '编码：'+row.ragionid; },
 			 */
-			queryParams : function(params) {
-				
-		       
-			},
+
 			silent : true, // 刷新事件必须设置
 			formatLoadingMessage : function() {
 				return "请稍等，正在加载中...";
@@ -192,7 +189,7 @@ var Express ={
                     align: 'center',
                     formatter: function (value, row, index) {
                         var _html = "";
-                     
+                        _html+=("<a class='btn btn-warning' href='javascript:void(0);'  onclick='Express.edit("+index+")'>编辑</a>");
                         return _html;
                     }
                 }]
@@ -210,12 +207,11 @@ var Express ={
 		$('#expressModal').modal(options);
 	},
 	
-	editExpress : function(index){
-		console.log("editExpress");
+	edit : function(index){
 		var that =this;
 		that.clearExpress();
 		$("#opera").val("edit")
-		
+		$("#expressModalTitle").text("编辑快递信息信息");
 		var row = $('#table_express').bootstrapTable("getData")[index];
 		
 		$("#opera").val("edit");

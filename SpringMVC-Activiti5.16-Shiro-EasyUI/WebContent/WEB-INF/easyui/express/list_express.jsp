@@ -7,10 +7,8 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">    
-<link rel="stylesheet" type="text/css" href="${ctx}/css/easyui/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="${ctx}/js/bootstrap-table/bootstrap-table.min.css">
-<script src="${ctx }/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="${ctx }/js/bootstrap-table/bootstrap-table.min.js" type="text/javascript"></script>
+
+
 <title></title>
 
 </head>
@@ -26,7 +24,7 @@
 		<table cellpadding="0" cellspacing="0">
 			<tr>
 				<td style="padding-left:2px">
-					<a id="btnAddExpress" href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" >新增</a>
+					<a id="btnAddExpress" href="javascript:void(0);" class="btn bbtn-primary" iconCls="icon-ok" >新增</a>
 					<%-- <shiro:hasPermission name="boss"> --%>
 						<!-- <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" onclick="jumpTask();">跳转</a> -->
 					<%-- </shiro:hasPermission> --%>
@@ -58,7 +56,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>
-				<h4 class="modal-title" id="orgModalTitle">快递信息</h4>
+				<h4 class="modal-title" id="expressModalTitle">快递信息</h4>
 			</div>
 			<div class="modal-body">
 				<div class="panel-default">
@@ -186,6 +184,7 @@
 	</div>
 </div>
 </body>
+	
 	<script src="${ctx}/js/app/express.js" type="text/javascript">
 	</script>
 </html>
