@@ -10,7 +10,7 @@ var vacation_form;
 
 $(function() {
 	//初始化vacation页面
-	showApply("vacation");
+	showApply("newOrder");
 	
 	$('#tabs').tabs({
 	    border:false,
@@ -18,7 +18,7 @@ $(function() {
 	        if(index == 0){
 	        	showApply("vacation");
 	        }else if(index == 1){
-	        	showApply("salary");
+	        	showApply("newOrder");
 	        }else{
 	        	showApply("expense");
 	        }
@@ -83,8 +83,8 @@ function showDetails(){
     	var _url;
     	if("vacation" == row.businessType){
     		_url = ctx + "/vacationAction/details/"+row.businessKey;
-    	}else if("salary" == row.businessType){
-    		_url = ctx + "/salaryAction/details/"+row.businessKey;
+    	}else if("newOrder" == row.businessType){
+    		_url = ctx + "/orderAction/details/"+row.businessKey;
     	}else{
     		_url = ctx + "/expenseAction/details/"+row.businessKey;
     	}

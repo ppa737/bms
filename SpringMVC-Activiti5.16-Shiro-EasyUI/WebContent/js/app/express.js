@@ -51,10 +51,30 @@ var Express ={
 	url:{
 		bindTable:'../expressAction/bindTable',
 		doAdd: "../expressAction/doAdd",
+		bindCustTable:'../customerAction/bindTable',
 	},
 	init: function(){
 		this.bindEvent();
 		this.bindTable();
+		this.bindCustTable();
+		$("#expressDate").datetimepicker({
+			language:  'zh-CN',  //日期
+			format: 'yyyy-mm-dd',//显示格式
+
+			todayHighlight: 1,//今天高亮
+
+			minView: "month",//设置只显示到月份
+
+			startView:2,
+
+			forceParse: 0,
+
+			showMeridian: 1,
+
+			autoclose: 1//选择后自动关闭
+
+			});
+		
 	},
 	bindEvent : function(){
 		var that =this;
@@ -79,7 +99,8 @@ var Express ={
 			url : that.url.bindTable,
 			dataType : "json",
 			toolbar : '#toolbar', // 工具按钮用哪个容器
-			singleSelect : false,
+			singleSelect : true,
+			clickToSelect : true, 
 			striped : true,
 			cache : false,
 			// data-locale:"zh-US" , //表格汉化
@@ -109,6 +130,7 @@ var Express ={
 				var temp = {
 						'pageSize' : params.limit,
 						'pageNum' : params.offset / params.limit + 1,
+						'searchKey':$.trim($("#inputSearch").val())
 					};
 				return temp;
 			},
@@ -125,22 +147,24 @@ var Express ={
                 {
                     field: 'expressCompany',
                     title: '快递公司'
-                },  {
-                    field: 'expressType',
-                    title: '类型',
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                    	var _html=""
-                    	if(value=="receive"){
-                    		_html= "收";
-                    	}else if(value=="send"){
-                    		_html=" 发";
-                    	}else{
-                    		_html=value;
-                    	}
-                    	return _html;
-                    }
-                },{
+                }, 
+//                {
+//                    field: 'expressType',
+//                    title: '类型',
+//                    align: 'center',
+//                    formatter: function (value, row, index) {
+//                    	var _html=""
+//                    	if(value=="receive"){
+//                    		_html= "收";
+//                    	}else if(value=="send"){
+//                    		_html=" 发";
+//                    	}else{
+//                    		_html=value;
+//                    	}
+//                    	return _html;
+//                    }
+//                },
+                {
                     field: 'expressDate',
                     title: '发件日期',
                     align: 'center',
@@ -162,22 +186,24 @@ var Express ={
                 }, {
                     field: 'receiverAddress',
                     title: '收件地址',
-                },  {
-                    field: 'receiverTel',
-                    title: '收件人电话',
-                },  {
-                    field: 'sender',
-                    title: '发件人',
-                },  {
-                    field: 'senderCompany',
-                    title: '发件公司',
-                },  {
-                    field: 'senderAddress',
-                    title: '发件地址',
-                },   {
-                    field: 'senderTel',
-                    title: '发件人电话',
-                },   {
+                }, 
+//                {
+//                    field: 'receiverTel',
+//                    title: '收件人电话',
+//                },  {
+//                    field: 'sender',
+//                    title: '发件人',
+//                },  {
+//                    field: 'senderCompany',
+//                    title: '发件公司',
+//                },  {
+//                    field: 'senderAddress',
+//                    title: '发件地址',
+//                },   {
+//                    field: 'senderTel',
+//                    title: '发件人电话',
+//                },   
+                {
                     field: 'expressComment',
                     title: '快递内容',
                 },   {
@@ -189,7 +215,7 @@ var Express ={
                     align: 'center',
                     formatter: function (value, row, index) {
                         var _html = "";
-                        _html+=("<a class='btn btn-warning' href='javascript:void(0);'  onclick='Express.edit("+index+")'>编辑</a>");
+                        _html+=("<a class='btn btn-warning btn-xs' href='javascript:void(0);'  onclick='Express.edit("+index+")'>编辑</a>");
                         return _html;
                     }
                 }]
@@ -198,7 +224,8 @@ var Express ={
 	},
 	
 	addExpress : function(){
-		console.log("btnAddExpress");
+		this.clearExpress();
+		$("#createInfo").hide();
 		
 		var options = {
 				backdrop : false,
@@ -281,7 +308,7 @@ var Express ={
 		$("#expressCode").val("");
 		$("#expressCompany").val("");
 		$("#expressType").val("");
-		$("#expressDate").val(null);
+		$("#expressDate").val(new Date().format('yyyy-MM-dd'));
 		$("#receiver").val("");
 		$("#receiverCompany").val("");
 		$("#receiverAddress").val("");
@@ -292,6 +319,105 @@ var Express ={
 		$("#expressState").val("");
 		$("#expressComment").val("");
 		$("#createUser").val("");
-		$("#createDate").val(null);		
-	}
+		$("#createDate").val(new Date().format('yyyy-MM-dd'));	
+		$("#createInfo").show();
+	},
+	
+	bindCustTable :function(){
+		var that =this;
+		$('#table_customer').bootstrapTable({
+        	method : 'get',
+			url : that.url.bindCustTable,
+			dataType : "json",
+			toolbar : '#toolbar', // 工具按钮用哪个容器
+			singleSelect : true,
+			clickToSelect : true, 
+			striped : true,
+			cache : false,
+			// data-locale:"zh-US" , //表格汉化
+			search : false, // 显示搜索框
+			pagination : true,
+			pageNumber : 1,// 显示分页
+			pageSize : 10,
+			pageList : [ 10, 25, 50, 100 ],
+			idField : 'custId',
+			sidePagination: "server", //服务端处理分页
+			// detailView:true,//显示详情
+			/*
+			 * detailFormatter:function(index, row, element){
+			 * return '编码：'+row.ragionid; },
+			 */
+			queryParams : function(params) {
+				var temp = {
+						'pageSize' : params.limit,
+						'pageNum' : params.offset / params.limit + 1,
+						'searchKey':$.trim($("#inputSearchCust").val())
+					};
+				return temp;
+			},
+			silent : true, // 刷新事件必须设置
+			formatLoadingMessage : function() {
+				return "请稍等，正在加载中...";
+				
+			},
+			responseHandler : function(res) {// 回调
+				return res;
+			},
+			
+			columns: [
+                {
+                    field: 'checkBox',
+                    checkbox: true
+                },
+                {
+                    field: 'custName',
+                    title: '客户名称'
+                },{
+                    field: 'address',
+                    title: '公司地址',
+                    align: 'left',
+
+                },{
+                    field: 'createDate',
+                    title: '创建时间',
+                    formatter: function (value, row, index) {
+                    	if(null!=value&&""!=value){
+                    		return new Date(value).format('yyyy-MM-dd');
+                    	}else{
+                    		return value;
+                    	}
+                        
+                    }
+                }
+                ]
+        });
+	},
+	confirmCust:function(){
+		var rows = $('#table_customer').bootstrapTable('getSelections');
+		if(rows==null || rows.length==0){
+			swal({
+				title : "请选择一个客户!",
+				type : "info"
+			});
+			return;
+		}else{
+			$("#orderCode").val(rows[0].custId);
+			$("#orderName").val(rows[0].custName);
+			$('#selCustModal').modal("hide");
+		}
+	},
+}
+
+function doSearchExpress(value){
+	
+	$('#table_order').bootstrapTable('refresh', {
+		silent : true
+	});
+}
+
+function doSearchCust(value){
+	
+	$('#table_customer').bootstrapTable('refresh', {
+		silent : true
+	});
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +69,11 @@ public class CustomerAction {
 	@RequiresPermissions("user:customer:*")
 	@RequestMapping("/bindTable")
 	@ResponseBody
-	public Map<String, Object> bindTable(Model model) throws Exception{
+	public Map<String, Object> bindTable(@RequestParam("pageNum") Integer pageNum,
+			@RequestParam("pageSize") Integer pageSize,
+			@RequestParam(value= "searchKey",required=false ) String searchKey,Model model) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = UserUtil.getUserFromSession();
-		List<Customer> list = this.custmoerService.toList(user.getId());
 //		for(Vacation v : list){
 //			if(BaseVO.APPROVAL_SUCCESS.equals(v.getStatus())){
 //				Vacation customer = (Vacation)this.historyService.createHistoricVariableInstanceQuery()
@@ -79,10 +81,29 @@ public class CustomerAction {
 //				
 //			}
 //		}
-		Pagination pagination = PaginationThreadUtils.get();
+		Pagination pagination = new Pagination();
+		pagination.setCurrentPage(pageNum);
+		pagination.setPageNum(pageSize);
+		PaginationThreadUtils.set(pagination);
+		String hql = "select t from Customer t where 1=1 ";
+		String countHql = "select count(*) from Customer t where 1=1 ";
+		if (StringUtils.isNoneBlank(searchKey)) {
+			hql += "and t.custName like '%"+searchKey+"%' ";
+			countHql += "and t.custName like '%"+searchKey+"%' ";
+		}
+		
+		if ("partner".equals(user.getGroup().getType())) {
+			hql += " and t.createUser ='"+user.getName()+"' ";
+			countHql += " and t.createUser ='"+user.getName()+"' ";
+		}
+		hql+="order by t.custId desc ";
+		
+		List<Customer> list = this.custmoerService.queryForPage(hql,countHql);
+		System.out.println(pagination.getPageNum());
 		model.addAttribute("page", pagination.getPageStr());
 		model.addAttribute("customerList", list);
 		map.put("rows", list);
+		map.put("total", pagination.getTotalSum());
 		return map;
 	}
 	

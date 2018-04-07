@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.zml.oa.entity.ExpressInfo;
 import com.zml.oa.entity.Order;
 import com.zml.oa.service.IOrderService;
 
@@ -30,14 +29,14 @@ public class OrderServiceImpl extends BaseServiceImpl<Order>  implements IOrderS
 
 	@Override
 	public List<Order> findList(Order oder) throws Exception {
-		return this.findByPage("Customer", new String[]{}, new String[]{});
+		return this.findByPage("Order", new String[]{}, new String[]{});
 	}
 
 	@Override
 	public List<Order> queryForPage(String hql, int pageNumber, int pageSize)
 			throws Exception {
 		List<Order> list = this.findByPage("Order", new String[]{}, new String[]{});
-		return null;
+		return list;
 	}
 
 	@Override
@@ -56,6 +55,11 @@ public class OrderServiceImpl extends BaseServiceImpl<Order>  implements IOrderS
 	public List<Order> queryForPage(String hql, String countHql)
 			throws Exception {
 		return this.findByPage(hql,countHql);
+	}
+	
+	@Override
+	public Order findById(Integer id) throws Exception {
+		return this.getUnique("Order", new String[]{"id"}, new String[]{id.toString()});
 	}
 
 }

@@ -42,6 +42,10 @@ public class Order implements java.io.Serializable {
 	private Date createDate;
 	private String modifyUser;
 	private Date modifyDate;
+	
+	
+	private Integer createUserId;
+	
 
 	// Constructors
 
@@ -230,4 +234,13 @@ public class Order implements java.io.Serializable {
 		this.modifyDate = modifyDate;
 	}
 
+	@Column(name="create_user_id")
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
+	}
+	
 }

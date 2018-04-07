@@ -23,5 +23,7 @@ public interface ICustomerService {
 	
 	public Customer findById(Integer id) throws Exception;
 	
-	public List<Customer> findByStatus(Integer userId, String status, Page<Customer> page) throws Exception; 
+	public List<Customer> findByStatus(Integer userId, String status, Page<Customer> page) throws Exception;
+
+	public List<Customer> queryForPage(String hql, String countHql) throws Exception; 
 }

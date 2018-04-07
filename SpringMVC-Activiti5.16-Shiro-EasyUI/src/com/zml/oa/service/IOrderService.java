@@ -26,5 +26,7 @@ public interface IOrderService {
 	public  Long  queryCount(String countHql)throws Exception;
 
 	public List<Order> queryForPage(String hql,String countHql) throws Exception ;
+
+	public Order findById(Integer id) throws Exception;
 		
 }

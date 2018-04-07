@@ -49,18 +49,43 @@ $(function() {
 
 var Customer ={
 	url:{
-		bindTable:'../expressAction/bindTable',
-		doAdd: "../expressAction/doAdd",
+		bindTable:'../customerAction/bindTable',
+		doAdd: "../customerAction/doAdd",
+		doUpdate: "../customerAction/doUpdate",
 	},
 	init: function(){
 		this.bindEvent();
 		this.bindTable();
+		$("#createDate").datetimepicker({
+			language:  'zh-CN',  //日期
+			format: 'yyyy-mm-dd',//显示格式
+
+			todayHighlight: 1,//今天高亮
+
+			minView: "month",//设置只显示到月份
+
+			startView:2,
+
+			forceParse: 0,
+
+			showMeridian: 1,
+
+			autoclose: 1//选择后自动关闭
+
+			});
+		
 	},
 	bindEvent : function(){
 		var that =this;
 		$("#btnAddCust").bind('click', function () {
             that.add();
         });
+		
+		$("#btnSaveCust").bind('click', function () {
+            that.saveCustomer();
+        });
+		
+		
 	},
 	
 	bindTable :function(){
@@ -70,7 +95,8 @@ var Customer ={
 			url : that.url.bindTable,
 			dataType : "json",
 			toolbar : '#toolbar', // 工具按钮用哪个容器
-			singleSelect : false,
+			singleSelect : true,
+			clickToSelect : true, 
 			striped : true,
 			cache : false,
 			// data-locale:"zh-US" , //表格汉化
@@ -90,6 +116,7 @@ var Customer ={
 				var temp = {
 						'pageSize' : params.limit,
 						'pageNum' : params.offset / params.limit + 1,
+						'searchKey':$.trim($("#inputSearchCust").val())
 					};
 				return temp;
 			},
@@ -106,10 +133,6 @@ var Customer ={
                 {
                     field: 'checkBox',
                     checkbox: true
-                },
-                {
-                    field: 'custCode',
-                    title: '客户编码'
                 },
                 {
                     field: 'custName',
@@ -140,22 +163,144 @@ var Customer ={
                     align: 'center',
                     formatter: function (value, row, index) {
                         var _html = "";
-                     
+                        _html+=("<a class='btn btn-warning btn-xs' href='javascript:void(0);'  onclick='Customer.edit("+index+")'>编辑</a>");
                         return _html;
                     }
                 }]
         });
-		
 	},
 	
 	add : function(){
-		console.log("btnAddCust");
+		this.clearCustomer();
+		$("#opera").val("add")
+		var options = {
+				backdrop : false,
+				show : true,
+			};
+		$('#custModal').modal(options);
+	},
+	
+	edit : function(index){
+		var that =this;
+		that.clearCustomer();
+		$("#opera").val("edit")
+		$("#custModalTitle").text("编辑快递信息信息");
+		var row = $('#table_customer').bootstrapTable("getData")[index];
+		
+		$("#custId").val(row.custId);
+		$("#custCode").val(row.custCode);
+		$("#custName").val(row.custName);
+		$("#branch").val(row.branch);
+		$("#address").val(row.address);
+		$("#createDate").val(row.createDate);
+		$("#custState").val(row.custState);
+		$("#contacts1").val(row.contacts1);
+		$("#position1").val(row.position1);
+		$("#tel1").val(row.tel1);
+		$("#mobile1").val(row.mobile1);
+		$("#email1").val(row.email1);
+		$("#qq1").val(row.qq1);
+		$("#contacts2").val(row.contacts2);
+		$("#position2").val(row.position2);
+		$("#mobile2").val(row.mobile2);	
+		$("#email2").val(row.email2);		
+		$("#qq2").val(row.qq2);		
+		$("#contacts3").val(row.contacts3);		
+		$("#position3").val(row.position3);		
+		$("tel3").val(row.tel3);		
+		$("#mobile3").val(row.mobile3);		
+		$("#email3").val(row.email3);		
+		$("#qq3").val(row.qq3);		
+		$("#comment").val(row.comment);		
+		
 		
 		var options = {
 				backdrop : false,
 				show : true,
 			};
 		$('#custModal').modal(options);
+	},
+	
+	saveCustomer : function(){
+		var that =this;
+		var customer={
+			"custId": $("#custId").val(),
+			"custCode": $("#custCode").val(),
+			"custName": $("#custName").val(),
+			"branch": $("#branch").val(),
+			"address": $("#address").val(),
+			"createDate": $("#createDate").val(),
+			"custState": $("#custState").val(),
+			"contacts1": $("#contacts1").val(),
+			"position1": $("#position1").val(),
+			"tel1": $("#tel1").val(),
+			"mobile1": $("#mobile1").val(),
+			"email1": $("#email1").val(),
+			"qq1": $("#qq1").val(),
+			"contacts2": $("#contacts2").val(),
+			"position2": $("#position2").val(),
+			"mobile2": $("#mobile2").val(),	
+			"email2": $("#email2").val(),		
+			"qq2": $("#qq2").val(),		
+			"contacts3": $("#contacts3").val(),		
+			"position3": $("#position3").val(),		
+			"tel3": $("tel3").val(),		
+			"mobile3": $("#mobile3").val(),		
+			"email3": $("#email3").val(),		
+			"qq3": $("#qq3").val(),		
+			"comment": $("#comment").val(),
+		}
+		var url=that.url.doAdd;
+		if ("edit"==$("#opera").val()){
+			url=that.url.doUpdate;
+		}
+		
+		$.post(url,{"customer":JSON.stringify(customer)},function(data){
+			
+			if(data.status){
+				swal({
+					title : "保存成功!",
+					type : "success"
+				});
+				$('#table_customer').bootstrapTable('refresh',{silent: true});
+				$('#custModal').modal('hide');
+			}
+		})
+	},
+	
+	clearCustomer: function(){
+		$("#opera").val("edit");
+		$("#custId").val("");
+		$("#custCode").val("");
+		$("#custName").val("");
+		$("#branch").val("");
+		$("#address").val("");
+		$("#createDate").val(new Date().format('yyyy-MM-dd'));
+		$("#custState").val("");
+		$("#contacts1").val("");
+		$("#position1").val("");
+		$("#tel1").val("");
+		$("#mobile1").val("");
+		$("#email1").val("");
+		$("#qq1").val("");
+		$("#contacts2").val("");
+		$("#position2").val("");
+		$("#mobile2").val("");	
+		$("#email2").val("");		
+		$("#qq2").val("");		
+		$("#contacts3").val("");		
+		$("#position3").val("");		
+		$("tel3").val("");		
+		$("#mobile3").val("");		
+		$("#email3").val("");		
+		$("#qq3").val("");		
+		$("#comment").val("");		
 	}
 		
+}
+function doSearchCust(value){
+	
+	$('#table_customer').bootstrapTable('refresh', {
+		silent : true
+	});
 }

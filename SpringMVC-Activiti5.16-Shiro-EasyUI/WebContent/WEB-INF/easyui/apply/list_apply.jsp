@@ -33,15 +33,15 @@
 		</table>
 	 </div>
 	 <div id="tabs" class="easyui-tabs">
-		<div title="请假申请" closable="true" data-options="selected:true" style="padding:10px;">
+<!-- 		<div title="请假申请" closable="true" data-options="selected:true" style="padding:10px;">
 			<table id="vacation_datagrid" title="请假申请"></table>
+		</div> -->
+		<div title="我的任务" closable="true" style="padding:10px;">
+			<table id="salary_datagrid" title="代办任务"></table>
 		</div>
-		<div title="薪资调整申请" closable="true" style="padding:10px;">
-			<table id="salary_datagrid" title="薪资调整申请"></table>
-		</div>
-		<div title="报销申请" closable="true" style="padding:10px;">
+		<!-- <div title="报销申请" closable="true" style="padding:10px;">
 			<table id="expense_datagrid" title="报销申请"></table>
-		</div>
+		</div> -->
 	</div>
   </body>
 </html>

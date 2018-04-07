@@ -12,7 +12,7 @@ import com.zml.oa.service.IBaseService;
 import com.zml.oa.service.ICustomerService;
 
 @Service
-public class CustomerServiceImpl implements ICustomerService{
+public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements ICustomerService{
 
 	
 	@Autowired 
@@ -48,5 +48,11 @@ public class CustomerServiceImpl implements ICustomerService{
 	public List<Customer> findByStatus(Integer userId, String status, Page<Customer> page) throws Exception {
 		List<Customer> list = this.baseService.getListPage("Customer", new String[]{"userId","status"}, new String[]{userId.toString(), status}, page);
 		return list;
+	}
+
+	@Override
+	public List<Customer> queryForPage(String hql, String countHql)
+			throws Exception {
+		return this.findByPage(hql,countHql);
 	}
 }

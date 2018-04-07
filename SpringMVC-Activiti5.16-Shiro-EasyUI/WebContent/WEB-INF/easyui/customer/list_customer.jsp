@@ -23,6 +23,8 @@
 			<tr>
 				<td style="padding-left:2px">
 					<a id="btnAddCust" href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" >新增</a>
+					<input id="inputSearchCust" class="easyui-searchbox" data-options="prompt:'Please Input Value',searcher:doSearchCust" style="width:300px"></input>
+					
 <!-- 					<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" onclick="delegateTask();">委派</a>
  -->					<%-- <shiro:hasPermission name="boss"> --%>
 						<!-- <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-ok" onclick="jumpTask();">跳转</a> -->
@@ -32,52 +34,9 @@
 		</table>
 	 </div>
       
-      <div class="sort_content">
+    <div class="sort_content">
        <table id="table_customer"></table>
-      	<%-- <form action="${ctx }/customerAction/toList_page" method="post">
-          <table id="table_customer" class="easyui-datagrid" style="width:450px;" data-options="fitColumns:true,singleSelect:true">
-			<thead>
-				<tr>
-					<th  data-options="field:'custCode',width:100,align:'center'" >客户编号</th>
-					<th  data-options="field:'custName',width:120,align:'center'">客户名称</th>
-					<th  data-options="field:'branch',width:100,align:'center'">所属分公司</th>
-					<th  data-options="field:'address',width:200,align:'center'">客户地址</th>
-					<th  data-options="field:'createDate',width:200,align:'center'">创建日期</th>
-					<th  data-options="field:'custState',width:100,align:'center'">状态</th>
-					<th  data-options="field:'custId',width:100,align:'center'">操作</th>
-				</tr>
-			</thead>
-              <tbody id="tbody">
-              <c:forEach var="customer" items="${customerList}">
-                <tr>
-
-                  <td>${customer.custCode}</td>
-                  <td>${customer.custName}</td>
-                  <td>${customer.branch}</td>
-                  <td>${customer.address}</td>
-                  <td><fmt:formatDate value="${customer.createDate}" type="date" /></td>
-				  <td>
-                  	<c:choose>
-                  		<c:when test="${customer.custState == 0}">无效</c:when>
-                  		<c:when test="${customer.custState == 1 }">有效</c:when>
-                  	</c:choose>
-                  </td>
-				  <td>
-				  	  <a href="${ctx }/customerAction/saveCust?custId=${customer.custId }">详细</a>
-				  </td>
-                </tr>
-              </c:forEach>
-              </tbody>
-          </table>
-          </form> --%>
-      </div>
-
-<!--        <div id="dialog_add_cust" title="add">
-		  <p>
-		    <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 1px 5px 0;">2131232</span>
-		    
-		  </p>
-		</div> -->
+    </div>
 </div>
     
     
@@ -94,16 +53,16 @@
 			</div>
 			<div class="modal-body">
 				<div class="panel-default">
-					<div class="panel-body">
-						<form id="form_cust" method="post" >
+					<div class="panel-body pre-scrollable">
+						<form id="form_cust" method="post"  >
 							<input type="hidden" id="opera" value="" />
                             <input type="hidden" id="custId" name="custId"  value="" />
-                            <div class="form-group">
+<!--                             <div class="form-group">
                                 <label class="col-sm-3 control-label">客户编号：</label>
                                 <div class="col-sm-9">
                                     <input id="custCode" name="custCode" class="form-control  valid" type="text"/>
                                 </div>
-                            </div>
+                            </div> -->
 							<div class="form-group">
                                 <label class="col-sm-3 control-label">客户名称：</label>
                                 <div class="col-sm-9">
@@ -134,7 +93,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">客户状态：</label>
                                 <div class="col-sm-9">
-                                     <select id="branch" class="form-control">
+                                     <select id="custState" class="form-control">
 										<option value="1">启用</option>
 										<option value="0">停用</option>
 									</select>
@@ -146,19 +105,13 @@
                                     <input id="contacts1" name="contacts1" class="form-control  valid" type="text"/>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">第一联系人职位：</label>
-                                <div class="col-sm-9">
-                                    <input id="position1" name="position1" class="form-control  valid" type="text"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">第一联系人职位：</label>
-                                <div class="col-sm-9">
-                                    <input id="position1" name="position1" class="form-control  valid" type="text"/>
-                                </div>
-                            </div>
                              <div class="form-group">
+                                <label class="col-sm-3 control-label">第一联系人职位：</label>
+                                <div class="col-sm-9">
+                                    <input id="position1" name="position1" class="form-control valid" type="text"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">第一联系人座机：</label>
                                 <div class="col-sm-9">
                                     <input id="tel1" name="tel1" class="form-control  valid" type="text"/>
@@ -218,7 +171,7 @@
                                     <input id="qq2" name="qq2" class="form-control  valid" type="text"/>
                                 </div>
                             </div>
-                       <div class="form-group">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">第三联系人：</label>
                                 <div class="col-sm-9">
                                     <input id="contacts3" name="contacts3" class="form-control  valid" type="text"/>
@@ -255,7 +208,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">第三联系人QQ：</label>
+                                <label class="col-sm-3 control-label">备注：</label>
                                 <div class="col-sm-9">
                                     <textarea id="comment" name="comment" class="form-control  valid" type="text"></textarea>
                                 </div>

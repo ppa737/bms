@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zml.oa.entity.Message;
 import com.zml.oa.entity.Order;
 import com.zml.oa.entity.User;
+import com.zml.oa.entity.Vacation;
 import com.zml.oa.pagination.Pagination;
 import com.zml.oa.pagination.PaginationThreadUtils;
 import com.zml.oa.service.IOrderService;
@@ -63,7 +66,7 @@ public class OrderAction {
 	@RequiresPermissions("user:order:*")
 	@RequestMapping(value = "/toAdd")
 	public String toAdd() {
-		return "order/add_customer";
+		return "order/add_order";
 	}
 
 	@RequiresPermissions("user:order:*")
@@ -71,15 +74,29 @@ public class OrderAction {
 	@ResponseBody
 	public Map<String, Object> bindTable(
 			@RequestParam("pageNum") Integer pageNum,
-			@RequestParam("pageSize") Integer pageSize)
+			@RequestParam("pageSize") Integer pageSize,
+			@RequestParam(value= "searchKey",required=false ) String searchKey)
 			throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pagination pagination = new Pagination();
 		pagination.setCurrentPage(pageNum);
 		pagination.setPageNum(pageSize);
 		PaginationThreadUtils.set(pagination);
-		String hql = "select t from Order t order by t.orderId desc";
-		String countHql = "select count(*) from Order ";
+		String hql = "select t from Order t where 1=1 ";
+		String countHql = "select count(*) from Order t where 1=1 ";
+		if (StringUtils.isNoneBlank(searchKey)) {
+			hql += " and t.orderName like '%"+searchKey+"%' ";
+			countHql += " and t.orderName like '%"+searchKey+"%' ";
+		}
+		
+		User user = UserUtil.getUserFromSession();
+		if ("partner".equals(user.getGroup().getType())) {
+			hql += " and t.createUser ='"+user.getName()+"' ";
+			countHql += " and t.createUser ='"+user.getName()+"' ";
+		}
+		
+		hql+="order by t.orderId desc";
+		
 		List<Order> list = this.orderService.queryForPage(hql,countHql);
 		Long total = orderService.queryCount(countHql);
 		map.put("rows", list);
@@ -104,6 +121,7 @@ public class OrderAction {
 		System.out.println("getOrderCode:" + order.getOrderCode());
 		Message message = new Message();
 		order.setCreateUser(currentUser.getName());
+		order.setCreateUserId(currentUser.getId());
 		order.setCreateDate(new Date());
 		try {
 			orderService.doAdd(order);
@@ -182,4 +200,21 @@ public class OrderAction {
 
 		return message;
 	}
+	
+	
+	/**
+	 * 详细信息
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequiresPermissions("user:order:details")
+	@RequestMapping(value="/details/{id}")
+	public String details(@PathVariable("id") Integer id, Model model) throws Exception{
+		Order order = this.orderService.findById(id);
+		model.addAttribute("order", order);
+		return "/order/details_order";
+	}
+	
 }

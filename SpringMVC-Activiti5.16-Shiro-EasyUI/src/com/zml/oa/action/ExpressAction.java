@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,15 +72,23 @@ public class ExpressAction {
 	@ResponseBody
 	public Map<String, Object> bindTable(
 			@RequestParam("pageNum") Integer pageNum,
-			@RequestParam("pageSize") Integer pageSize)
+			@RequestParam("pageSize") Integer pageSize,
+			@RequestParam(value= "searchKey",required=false ) String searchKey)
 			throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Pagination pagination = new Pagination();
 		pagination.setCurrentPage(pageNum);
 		pagination.setPageNum(pageSize);
 		PaginationThreadUtils.set(pagination);
-		String hql = "select t from ExpressInfo t order by t.expressId desc";
-		String countHql = "select count(*) from ExpressInfo ";
+		String hql = "select t from ExpressInfo t  where 1=1";
+		String countHql = "select count(*) from ExpressInfo  where 1=1 ";
+		
+		if (StringUtils.isNoneBlank(searchKey)) {
+			hql += " and t.receiverCompany like '%"+searchKey+"%' ";
+			countHql += " and t.receiverCompany like '%"+searchKey+"%' ";
+		}
+		
+		hql += "order by t.expressId desc";
 		List<ExpressInfo> list = this.expressService.queryForPage(hql,countHql);
 		Long total = expressService.queryCount(countHql);
 		map.put("rows", list);

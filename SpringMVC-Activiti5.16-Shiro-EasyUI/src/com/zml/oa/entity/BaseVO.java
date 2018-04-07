@@ -25,6 +25,7 @@ public class BaseVO implements Serializable{
 	public final static String VACATION = "vacation";	
 	public final static String SALARY = "salary";	
 	public final static String EXPENSE = "expense";
+	public final static String NEW_ORDER = "newOrder";
 	
 	// 待办任务标识
 	public final static String CANDIDATE = "candidate";
@@ -174,6 +175,10 @@ public class BaseVO implements Serializable{
 	@Transient
 	public static String getExpense() {
 		return EXPENSE;
+	}
+	@Transient
+	public static String getNewOrder() {
+		return NEW_ORDER;
 	}
 
 	@Transient
