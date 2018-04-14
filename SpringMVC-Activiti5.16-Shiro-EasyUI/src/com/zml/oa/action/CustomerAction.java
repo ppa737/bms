@@ -161,12 +161,11 @@ public class CustomerAction {
 		User currentUser = UserUtil.getUserFromSession();
 		Customer customer = JSONObject.parseObject(expressStr,
 				Customer.class);
-		System.out.println("getExpressCode:" + customer.getCustCode());
 		Message message = new Message();
-		customer.setCreateUser(currentUser.getName());
-		customer.setCreateDate(new Date());
+		customer.setModifyUser(currentUser.getName());
+		customer.setModifyDate(new Date());
 		try {
-			custmoerService.doAdd(customer);
+			custmoerService.doUpdate(customer);
 			message.setStatus(true);
 		} catch (Exception e) {
 			e.printStackTrace();

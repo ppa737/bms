@@ -62,7 +62,7 @@
 									<label class="col-sm-3 control-label">客户名称：</label>
 									<div class="col-sm-9">
 										<input type="text" id="orderName" name="orderName"
-											class="form-control col-sm-9" value="" style="width: 260px;">
+											class="form-control col-sm-9" value="" style="width: 260px;" readonly="readonly">
 											<div class="col-sm-3">
 												<a class="btn btn-sm btn-info" id="openCust">选择</a>
 											</div> <!-- <input id="orderName" name="orderName" class="form-control  valid" type="text"/>

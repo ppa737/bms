@@ -186,7 +186,6 @@ var Customer ={
 		$("#opera").val("edit")
 		$("#custModalTitle").text("编辑快递信息信息");
 		var row = $('#table_customer').bootstrapTable("getData")[index];
-		
 		$("#custId").val(row.custId);
 		$("#custCode").val(row.custCode);
 		$("#custName").val(row.custName);
@@ -251,7 +250,7 @@ var Customer ={
 			"comment": $("#comment").val(),
 		}
 		var url=that.url.doAdd;
-		if ("edit"==$("#opera").val()){
+		if (null!=$("#custId").val()&&""!=$("#custId").val() ){
 			url=that.url.doUpdate;
 		}
 		

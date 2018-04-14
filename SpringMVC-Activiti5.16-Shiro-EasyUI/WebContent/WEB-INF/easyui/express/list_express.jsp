@@ -43,7 +43,7 @@
 	<div class="modal fade" id="expressModal" tabindex="0" role="dialog"
 		aria-labelledby="treeModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content" style="width:600px;margin:0 auto;">
+			<div class="modal-content" style="width:800px;margin:0 auto;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
@@ -100,7 +100,8 @@
 									<label class="col-sm-3 control-label">收件公司：</label>
 									<div class="col-sm-9">
 										<input id="receiverCompany" name="receiverCompany"
-											class="form-control  valid" type="text" />
+											class="form-control col-sm-9  valid" type="text" style="width: 460px;"  readonly="readonly"/>
+										<a class="btn btn-sm btn-info" id="openCust" >选择</a>
 									</div>
 								</div>
 								<div class="form-group">

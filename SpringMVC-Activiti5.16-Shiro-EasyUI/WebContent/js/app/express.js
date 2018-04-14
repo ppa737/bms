@@ -90,6 +90,14 @@ var Express ={
 			
             that.saveExpress();
         });
+		
+		$("#openCust").bind('click', function() {
+			that.openCust();
+		});
+		
+		$("#btnConfirmCust").bind('click', function() {
+			that.confirmCust();
+		});
 	},
 	
 	bindTable :function(){
@@ -392,6 +400,14 @@ var Express ={
                 ]
         });
 	},
+	openCust: function(){
+		var options = {
+				backdrop : false,
+				show : true,
+			};
+			$('#selCustModal').modal(options);
+		
+	},
 	confirmCust:function(){
 		var rows = $('#table_customer').bootstrapTable('getSelections');
 		if(rows==null || rows.length==0){
@@ -401,8 +417,8 @@ var Express ={
 			});
 			return;
 		}else{
-			$("#orderCode").val(rows[0].custId);
-			$("#orderName").val(rows[0].custName);
+			$("#receiverCompany").val(rows[0].custName);
+			$("#receiverAddress").val(rows[0].address);
 			$('#selCustModal').modal("hide");
 		}
 	},
