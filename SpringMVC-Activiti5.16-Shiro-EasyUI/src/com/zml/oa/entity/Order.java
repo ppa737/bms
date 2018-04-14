@@ -43,6 +43,7 @@ public class Order implements java.io.Serializable {
 	private String modifyUser;
 	private Date modifyDate;
 	
+	private String remindStatus;
 	
 	private Integer createUserId;
 	
@@ -241,6 +242,15 @@ public class Order implements java.io.Serializable {
 
 	public void setCreateUserId(Integer createUserId) {
 		this.createUserId = createUserId;
+	}
+
+	@Column(name="remind_status")
+	public String getRemindStatus() {
+		return remindStatus;
+	}
+
+	public void setRemindStatus(String remindStatus) {
+		this.remindStatus = remindStatus;
 	}
 	
 }

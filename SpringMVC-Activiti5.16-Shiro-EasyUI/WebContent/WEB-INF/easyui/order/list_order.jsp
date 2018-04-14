@@ -115,23 +115,23 @@
 								</div>
 
 								<div class="form-group">
-									<label class="col-sm-3 control-label">开始时间：</label>
+									<label class="col-sm-3 control-label">证书开始时间：</label>
 									<div class="col-sm-9">
 										<input id="startDate" name="startDate"
 											class="form-control  valid" type="text" />
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label">结束时间：</label>
+		<!-- 						<div class="form-group">
+									<label class="col-sm-3 control-label">证书到期时间：</label>
 									<div class="col-sm-9">
 										<input id="endDate" name="endDate" class="form-control  valid"
 											type="text" />
 									</div>
-								</div>
+								</div> -->
 								<div class="form-group">
 									<label class="col-sm-3 control-label">订单状态：</label>
 									<div class="col-sm-9">
-										<select id="orderState" class="form-control">
+										<select id="orderState" class="form-control" value="1">
 											<option value="1">有效</option>
 											<option value="0">作废</option>
 										</select>

@@ -236,4 +236,9 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
 	public Long count(String hql ) {
 		return this.baseDao.count(hql);
 	}
+
+	@Override
+	public int executeUpdateHql(String hql) throws Exception {
+		return this.baseDao.executeUpdateHql(hql);
+	}
 }

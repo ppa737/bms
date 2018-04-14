@@ -29,4 +29,5 @@ public interface IOrderService {
 
 	public Order findById(Integer id) throws Exception;
 		
+	public void doUpdateRemind(Order oder) throws Exception;
 }

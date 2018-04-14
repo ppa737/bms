@@ -44,5 +44,12 @@ public interface IBaseService<T> {
 	 public List<T> getListPage(String tableSimpleName,String[] columns,String[] values, Page<T> page) throws Exception;
 
 	 public List<T> findByPage(String hql,String countHql) throws Exception;
+	 
+		/**
+		 * 
+		 * @param hql
+		 * @return
+		 */
+		public int executeUpdateHql (String hql) throws Exception;
 	
 }

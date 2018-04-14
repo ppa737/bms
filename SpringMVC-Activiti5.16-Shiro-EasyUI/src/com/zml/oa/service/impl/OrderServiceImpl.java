@@ -62,4 +62,12 @@ public class OrderServiceImpl extends BaseServiceImpl<Order>  implements IOrderS
 		return this.getUnique("Order", new String[]{"id"}, new String[]{id.toString()});
 	}
 
+	@Override
+	public void doUpdateRemind(Order order) throws Exception {
+		
+		String hql = "update Order t set t.remindStatus='" +order.getRemindStatus()+"' where t.orderId="+order.getOrderId();
+		this.executeUpdateHql(hql);
+		
+	}
+
 }

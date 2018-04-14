@@ -97,4 +97,12 @@ public interface IBaseDao<T> {
 	 * @return
 	 */
 	public Long count(String hql);
+	
+	/**
+	 * 
+	 * @param hql
+	 * @return
+	 */
+	public int executeUpdateHql(String hql);
+	
 }

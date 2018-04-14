@@ -103,6 +103,42 @@ public class OrderAction {
 		map.put("total", total);
 		return map;
 	}
+	
+	@RequiresPermissions("user:order:*")
+	@RequestMapping("/bindRemindTable")
+	@ResponseBody
+	public Map<String, Object> bindRemindTable(
+			@RequestParam("pageNum") Integer pageNum,
+			@RequestParam("pageSize") Integer pageSize,
+			@RequestParam(value= "searchKey",required=false ) String searchKey)
+			throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Pagination pagination = new Pagination();
+		pagination.setCurrentPage(pageNum);
+		pagination.setPageNum(pageSize);
+		PaginationThreadUtils.set(pagination);
+		//有效且需要提示
+		String hql = "select t from Order t where 1=1 and t.orderState='1' and remindStatus='1' ";
+		String countHql = "select count(*) from Order t where 1=1 and t.orderState='1'  and remindStatus='1' ";
+		if (StringUtils.isNoneBlank(searchKey)) {
+			hql += " and t.orderName like '%"+searchKey+"%' ";
+			countHql += " and t.orderName like '%"+searchKey+"%' ";
+		}
+		
+		User user = UserUtil.getUserFromSession();
+		if ("partner".equals(user.getGroup().getType())) {
+			hql += " and t.createUser ='"+user.getName()+"' ";
+			countHql += " and t.createUser ='"+user.getName()+"' ";
+		}
+		
+		hql+="order by t.startDate desc";
+		
+		List<Order> list = this.orderService.queryForPage(hql,countHql);
+		Long total = orderService.queryCount(countHql);
+		map.put("rows", list);
+		map.put("total", total);
+		return map;
+	}
 
 	/**
 	 * 添加订单
@@ -156,6 +192,37 @@ public class OrderAction {
 		order.setCreateDate(new Date());
 		try {
 			orderService.doUpdate(order);
+			message.setStatus(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e);
+			message.setStatus(false);
+		}
+
+		return message;
+	}
+	
+	/**
+	 * 更改订单
+	 * 
+	 * @param orderStr
+	 * @return
+	 * @throws Exception
+	 */
+	@RequiresPermissions("user:order:doAdd")
+	@RequestMapping(value = "/doUpdateRemind", method = RequestMethod.POST)
+	@ResponseBody
+	public Message doUpdateRemind(@RequestParam("order") String orderStr)
+			throws Exception {
+		User currentUser = UserUtil.getUserFromSession();
+		Order order = JSONObject.parseObject(orderStr,
+				Order.class);
+		System.out.println("getOrderCode:" + order.getOrderCode());
+		Message message = new Message();
+		order.setCreateUser(currentUser.getName());
+		order.setCreateDate(new Date());
+		try {
+			orderService.doUpdateRemind(order);
 			message.setStatus(true);
 		} catch (Exception e) {
 			e.printStackTrace();

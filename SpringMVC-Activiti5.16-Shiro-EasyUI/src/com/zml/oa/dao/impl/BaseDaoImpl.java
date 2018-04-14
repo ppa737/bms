@@ -82,4 +82,9 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 		return (Long) this.getSession().createQuery(hql).uniqueResult();
 	}
 
+	@Override
+	public int executeUpdateHql(String hql) {
+		return this.getSession().createQuery(hql).executeUpdate();
+	}
+
 }
